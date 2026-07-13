@@ -1,0 +1,124 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  background-color: #f9fafb;
+  padding: 18px 24px 0;
+  max-height: 180px;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 1200px;
+  margin: 0 auto;
+  gap: 48px;
+  line-height: 0.6;
+}
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* align-items: flex-start; */
+  align-items: center;
+  padding: 12px;
+}
+
+.footer-brand h3 {
+  font-size: 24px;
+  color: #111827;
+  margin-bottom: 8px;
+}
+
+.footer-brand p {
+  text-align: left;
+  color: #6b7280;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: flex-start;
+  align-items: flex-start; */
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-links h4,
+.footer-legal h4 {
+  color: #374151;
+  font-size: 16px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li,
+.footer-legal li {
+  margin-bottom: 8px;
+}
+
+.footer-links a,
+.footer-legal a {
+  color: #6b7280;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover,
+.footer-legal a:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.footer-legal {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.footer-legal ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-bottom {
+  border-top: 1px solid #e5e7eb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f3f4f6;
+  padding-top: 24px;
+}
+
+.footer-bottom p {
+  color: #9ca3af;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-columns: 1fr;
+    gap: 32px;
+    text-align: center;
+  }
+
+  .footer-brand,
+  .footer-links,
+  .footer-legal {
+    align-items: center;
+  }
+
+  .footer-brand p {
+    text-align: center;
+  }
+}
