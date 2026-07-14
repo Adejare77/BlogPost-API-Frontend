@@ -17,7 +17,6 @@ const Posts = () => {
   const [page, setPage] = useState<number>(1);
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-  const [likeCount, setLikedCount] = useState<number>();
 
   const navigate = useNavigate();
 
@@ -98,7 +97,11 @@ const Posts = () => {
               </div>
 
               <span className="post-date">
-                {new Date(post.createdAt).toLocaleDateString()}
+                {new Date(post.createdAt).toLocaleDateString("en-NG", {
+                  day: "2-digit",
+                  month: "long",
+                  year: "numeric",
+                })}
               </span>
             </div>
             <h2 className="post-title" onClick={() => navigate(post.id)}>
