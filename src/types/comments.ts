@@ -12,6 +12,7 @@ export interface Comment {
   excerpt?: string;
   createdAt: string;
   likes: number;
+  liked: Boolean;
 }
 
 export interface UpdateComment {
