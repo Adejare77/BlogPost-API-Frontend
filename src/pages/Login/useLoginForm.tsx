@@ -1,13 +1,16 @@
-import { useNavigate } from "react-router-dom";
-import { useState, type SubmitEvent } from "react";
+import { useState, type FormEvent } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { AxiosError } from "axios";
 import getAPIErrorMessage from "../../utils/error";
 import { loginUser } from "../../api/auth";
 
-const useLoginForm = () => {
-  const navigate = useNavigate();
-
+const useLoginForm = ({
+  onSuccess,
+  onClose,
+}: {
+  onSuccess?: () => void;
+  onClose?: () => void;
+}) => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
@@ -16,14 +19,16 @@ const useLoginForm = () => {
 
   const { login } = useAuth();
 
-  const handleSubmit = async (e: SubmitEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
+    setErr(null);
 
     try {
       const res = await loginUser({ email, password });
       login(res.data.accessToken);
-      navigate("/", { replace: true });
+      onClose?.();
+      onSuccess?.();
     } catch (err: unknown) {
       err instanceof AxiosError && err.response?.status === 401
         ? setErr("Invalid Credentials")
@@ -39,9 +44,7 @@ const useLoginForm = () => {
     password,
     setPassword,
     err,
-    setErr,
     loading,
-    setLoading,
     handleSubmit,
   };
 };
