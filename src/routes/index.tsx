@@ -4,23 +4,27 @@ import Posts from "../pages/Posts/Posts";
 import { ProtectedRoute } from "../components/ProtectedRoute";
 import PostDetail from "../pages/PostDetail/PostDetail";
 import UserPosts from "../pages/UserPosts/UserPosts";
-import Login from "../pages/Login/Login";
+import Login from "../pages/Login/LoginPage";
 import RegisterUser from "../pages/Register/Register";
 import CreatePost from "../pages/CreatePosts/CreatePost";
 
 const router = createBrowserRouter([
-  { path: "/login", element: <Login /> },
-  { path: "/register", element: <RegisterUser /> },
-  { path: "/", element: <Navigate to="/posts" replace /> },
-
   {
-    path: "/posts",
     element: <AppLayout />,
     children: [
-      { index: true, element: <Posts /> },
-      { path: ":id", element: <PostDetail /> },
+      { path: "/login", element: <Login /> },
+      { path: "/register", element: <RegisterUser /> },
+      { path: "/", element: <Navigate to="/posts" replace /> },
+      {
+        path: "/posts",
+        children: [
+          { index: true, element: <Posts /> },
+          { path: ":id", element: <PostDetail /> },
+        ],
+      },
     ],
   },
+
   {
     element: <ProtectedRoute />,
     children: [
