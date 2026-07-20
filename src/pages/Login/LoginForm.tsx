@@ -12,7 +12,7 @@ const LoginForm = ({ onSuccess, onClose, showCreateLink }: LoginFormProps) => {
     useLoginForm({ onSuccess, onClose });
 
   return (
-    <div className="login-wrapper">
+    <div className="login-card">
       {err && <p className="error">{err}</p>}
 
       <form onSubmit={handleSubmit} className="login-form">

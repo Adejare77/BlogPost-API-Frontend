@@ -6,8 +6,8 @@ const LoginPage = () => {
   const onSuccess = () => navigate("/", { replace: true });
 
   return (
-    <div className="login-container">
-      <LoginForm onSuccess={onSuccess} />
+    <div className="login-page">
+      <LoginForm onSuccess={onSuccess} showCreateLink={true} />
     </div>
   );
 };
