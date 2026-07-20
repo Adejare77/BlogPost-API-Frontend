@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Post } from "../../types/post";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getPosts } from "../../api/posts";
 import { AxiosError } from "axios";
 import type { PaginationResponse } from "../../types/pagination";
@@ -8,6 +8,7 @@ import { Heart } from "lucide-react";
 import { deleteLikedPost, likePost } from "../../api/like";
 import toast from "react-hot-toast";
 import getAPIErrorMessage from "../../utils/error";
+import LoginModal from "../Login/LoginModal";
 
 const Posts = () => {
   const [pagination, setPagination] = useState<PaginationResponse<Post> | null>(
@@ -17,8 +18,8 @@ const Posts = () => {
   const [page, setPage] = useState<number>(1);
   const [err, setErr] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
-
-  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
 
   const handleLikePost = async (postId: string) => {
     await likePost(postId);
@@ -28,6 +29,14 @@ const Posts = () => {
   const handleDeleteLikedPost = async (postId: string) => {
     await deleteLikedPost(postId);
     toast.success("Like deleted 👎");
+  };
+
+  const onClose = () => setIsModalOpen(false);
+
+  const onSuccess = (postId: string) => {
+    const actionToRetry = () => handleLikePost(postId);
+
+    setPendingAction(() => actionToRetry);
   };
 
   const toggleLike = async (post: Post) => {
@@ -51,7 +60,7 @@ const Posts = () => {
       );
     } catch (err: unknown) {
       err instanceof AxiosError && err.response?.status === 401
-        ? toast.error("Login required")
+        ? setIsModalOpen(true)
         : getAPIErrorMessage(err);
     }
   };
@@ -104,9 +113,10 @@ const Posts = () => {
                 })}
               </span>
             </div>
-            <h2 className="post-title" onClick={() => navigate(post.id)}>
+
+            <Link to={post.id} className="post-title">
               {post.title}
-            </h2>
+            </Link>
 
             <p className="post-excerpt">{post.excerpt}</p>
 
@@ -127,11 +137,23 @@ const Posts = () => {
 
               <span className="meta-item">
                 <button onClick={() => toggleLike(post)}>
-                  <Heart className={post.liked ? "liked" : "unlike"} />
+                  <Heart
+                    size={18}
+                    strokeWidth={1}
+                    className={post.liked ? "liked" : "unlike"}
+                  />
                 </button>
                 <span>{post.likes}</span>
               </span>
             </div>
+
+            {
+              <LoginModal
+                isModalOpen={isModalOpen}
+                onSuccess={() => onSuccess(post.id)}
+                onClose={onClose}
+              />
+            }
           </article>
         ))}
       </div>
