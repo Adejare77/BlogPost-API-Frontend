@@ -5,18 +5,37 @@ interface LoginFormProps {
   onSuccess?: () => void;
   onClose?: () => void;
   showCreateLink?: boolean;
+  headerAction?: boolean;
 }
 
-const LoginForm = ({ onSuccess, onClose, showCreateLink }: LoginFormProps) => {
+const LoginForm = ({
+  onSuccess,
+  onClose,
+  showCreateLink,
+  headerAction,
+}: LoginFormProps) => {
   const { email, setEmail, password, setPassword, err, loading, handleSubmit } =
     useLoginForm({ onSuccess, onClose });
 
   return (
     <div className="login-card">
-      {err && <p className="error">{err}</p>}
-
       <form onSubmit={handleSubmit} className="login-form">
-        <h2 className="form-title">Log in</h2>
+        <div className="form-header">
+          <h2 className="form-title">Log in</h2>
+
+          {headerAction && (
+            <button
+              type="button"
+              className="login-modal-close-btn"
+              onClick={onClose}
+            >
+              &times;
+            </button>
+          )}
+        </div>
+
+        {err && <p className="error">{err}</p>}
+
         <div className="form-field">
           <label htmlFor="email">Email</label>
           <input
